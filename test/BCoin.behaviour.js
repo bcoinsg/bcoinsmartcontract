@@ -16,11 +16,11 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
 
   describe('basic properties', function () {
     it('name', async function() {
-      assert.equal(await this.token.name(), 'BCoin Coin');
+      assert.equal(await this.token.name(), 'BCoin Token');
     });
 
     it('symbol', async function() {
-      assert.equal(await this.token.symbol(), 'BCN');
+      assert.equal(await this.token.symbol(), 'BCT');
     });
 
     it('decimals', async function() {
@@ -495,32 +495,4 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
       });
     });
   });
-
-  // describe('when modifying names', function () {
-  //   it('should allow mod to modify name', async function () {
-  //     assert.equal(await this.token.name(), 'BCoin Coin');
-  //     await this.token.modName('BToken');
-  //     assert.equal(await this.token.name(), 'BToken');
-  //   });
-  //   it('should not allow non-mod to modify name', async function () {
-  //     assertRevert(this.token.modName('BToken', {from: anotherAccount}));
-  //   });
-  //   it('should allow mod to modify symbol', async function () {
-  //     assert.equal(await this.token.symbol(), 'BCN');
-  //     await this.token.modSymbol('BTN');
-  //     assert.equal(await this.token.symbol(), 'BTN');
-  //   });
-  //   it('should not allow non-mod to modify symbol', async function () {
-  //     assertRevert(this.token.modSymbol('BTN', {from: anotherAccount}));
-  //   });
-  //   it('should allow mod to transfer mod rights', async function () {
-  //     await this.token.transferMod(anotherAccount);
-  //     assert.equal(await this.token.name(), 'BCoin Coin');
-  //     await this.token.modName('BToken', {from: anotherAccount});
-  //     assert.equal(await this.token.name(), 'BToken');
-  //   });
-  //   it('should not allow non-mod to transfer mod rights', async function () {
-  //     assertRevert(this.token.transferMod(recipient, {from: anotherAccount}));
-  //   });
-  // });
 });
