@@ -11,15 +11,6 @@ Symbol: BCT
 - Issuance of locked-up tokens
 
 
-For linting, install solium:
-```
-npm install -g solium
-```
-then run:
-```
-npm run lint
-```
-
 To run tests, install truffle framework:
 ```
 npm install -g truffle
