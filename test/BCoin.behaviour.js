@@ -2,7 +2,7 @@ import assertRevert from '../helpers/assertRevert';
 const BigNumber = web3.BigNumber;
 const BCoin = artifacts.require('BCoin');
 const decimalFactor = new BigNumber(Math.pow(10, 18));
-const totalTokens = Math.pow(10, 9);
+const totalTokens = 300 * Math.pow(10, 6);
 const totalSupply = decimalFactor.times(totalTokens);
 const decodeLogs = require('../helpers/decodeLogs');
 const checkTransferEvent = require('../helpers/checkTransferEvent');
@@ -68,7 +68,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
       const to = recipient;
 
       describe('when the sender does not have enough balance', function () {
-        const amount = decimalFactor.times(1000000001);
+        const amount = decimalFactor.times(totalTokens + 1);
 
         it('reverts', async function () {
           await assertRevert(this.token.transfer(to, amount, { from: owner }));
@@ -149,7 +149,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
       });
 
       describe('when the sender does not have enough balance', function () {
-        const amount = decimalFactor.times(1000000001);
+        const amount = decimalFactor.times(totalTokens + 1);
 
         it('emits an approval event', async function () {
           const { logs } = await this.token.approve(spender, amount, { from: owner });
@@ -216,7 +216,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
 
       describe('when the spender has enough approved balance', function () {
         beforeEach(async function () {
-          await this.token.approve(spender, decimalFactor.times(Math.pow(10,9)), { from: owner });
+          await this.token.approve(spender, decimalFactor.times(totalTokens), { from: owner });
         });
 
         describe('when the owner has enough balance', function () {
@@ -234,7 +234,6 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
 
           it('decreases the spender allowance', async function () {
             await this.token.transferFrom(owner, to, amount, { from: spender });
-
             const allowance = await this.token.allowance(owner, spender);
             assert(allowance.eq(0));
           });
@@ -251,7 +250,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
         });
 
         describe('when the owner does not have enough balance', function () {
-          const amount = decimalFactor.times(1000000001);
+          const amount = decimalFactor.times(totalTokens+1);
 
           it('reverts', async function () {
             await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
@@ -273,7 +272,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
         });
 
         describe('when the owner does not have enough balance', function () {
-          const amount = decimalFactor.times(1000000001);
+          const amount = decimalFactor.times(totalTokens + 1);
 
           it('reverts', async function () {
             await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
@@ -339,7 +338,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
       });
 
       describe('when the sender does not have enough balance', function () {
-        const amount = decimalFactor.times(1000000001);
+        const amount = decimalFactor.times(totalTokens + 1);
 
         it('emits an approval event', async function () {
           const { logs } = await this.token.decreaseApproval(spender, amount, { from: owner });
@@ -439,7 +438,7 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
       });
 
       describe('when the sender does not have enough balance', function () {
-        const amount = decimalFactor.times(1000000001);
+        const amount = decimalFactor.times(totalTokens + 1);
 
         it('emits an approval event', async function () {
           const { logs } = await this.token.increaseApproval(spender, amount, { from: owner });
@@ -497,24 +496,31 @@ contract('BCoin', function ([owner, recipient, anotherAccount]) {
     });
   });
 
-  describe('when modifying names', function () {
-    
-    it('should allow mod to modify name', async function () {
-      assert.equal(await this.token.name(), 'BCoin Coin');
-      await this.token.modName('BToken');
-      assert.equal(await this.token.name(), 'BToken');
-    });
-    it('should not allow non-mod to modify name', async function () {
-      assertRevert(this.token.modName('BToken', {from: anotherAccount}));
-    });
-    it('should allow mod to transfer mod rights', async function () {
-      await this.token.transferMod(anotherAccount);
-      assert.equal(await this.token.name(), 'BCoin Coin');
-      await this.token.modName('BToken', {from: anotherAccount});
-      assert.equal(await this.token.name(), 'BToken');
-    });
-    it('should not allow non-mod to transfer mod rights', async function () {
-      assertRevert(this.token.transferMod(recipient, {from: anotherAccount}));
-    });
-  });
+  // describe('when modifying names', function () {
+  //   it('should allow mod to modify name', async function () {
+  //     assert.equal(await this.token.name(), 'BCoin Coin');
+  //     await this.token.modName('BToken');
+  //     assert.equal(await this.token.name(), 'BToken');
+  //   });
+  //   it('should not allow non-mod to modify name', async function () {
+  //     assertRevert(this.token.modName('BToken', {from: anotherAccount}));
+  //   });
+  //   it('should allow mod to modify symbol', async function () {
+  //     assert.equal(await this.token.symbol(), 'BCN');
+  //     await this.token.modSymbol('BTN');
+  //     assert.equal(await this.token.symbol(), 'BTN');
+  //   });
+  //   it('should not allow non-mod to modify symbol', async function () {
+  //     assertRevert(this.token.modSymbol('BTN', {from: anotherAccount}));
+  //   });
+  //   it('should allow mod to transfer mod rights', async function () {
+  //     await this.token.transferMod(anotherAccount);
+  //     assert.equal(await this.token.name(), 'BCoin Coin');
+  //     await this.token.modName('BToken', {from: anotherAccount});
+  //     assert.equal(await this.token.name(), 'BToken');
+  //   });
+  //   it('should not allow non-mod to transfer mod rights', async function () {
+  //     assertRevert(this.token.transferMod(recipient, {from: anotherAccount}));
+  //   });
+  // });
 });

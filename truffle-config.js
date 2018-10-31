@@ -37,13 +37,7 @@ module.exports = {
       },
       network_id: 1,
       gas: 4612388,
-      gasPrice: 8000000000,
+      gasPrice: 20000000000,
     }
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200,
-    },
-  },
+  }
 };

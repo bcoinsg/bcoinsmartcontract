@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.4.25;
 
 // ERC20 interface
 interface IERC20 {
@@ -43,12 +43,11 @@ library SafeMath {
 
 contract BCoin is IERC20 {
   using SafeMath for uint256;
-  address private mod;
-  string public name = "BCoin Coin";
-  string public symbol = "BCN";
+  string public name = "BCoin Token";
+  string public symbol = "BCT";
   uint8 public constant decimals = 18;
-  uint256 public constant decimalFactor = 10 ** uint256(decimals);
-  uint256 public constant totalSupply = 300000 * decimalFactor;
+  uint256 public constant decimalFactor = 1000000000000000000;
+  uint256 public constant totalSupply = 300000000 * decimalFactor;
   mapping (address => uint256) balances;
   mapping (address => mapping (address => uint256)) internal allowed;
 
@@ -57,7 +56,6 @@ contract BCoin is IERC20 {
 
   constructor() public {
     balances[msg.sender] = totalSupply;
-    mod = msg.sender;
     emit Transfer(address(0), msg.sender, totalSupply);
   }
 
@@ -112,18 +110,6 @@ contract BCoin is IERC20 {
       allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
     }
     emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
-    return true;
-  }
-
-  function transferMod(address _mod) public returns (bool) {
-    require(msg.sender == mod);
-    mod = _mod;
-    return true;
-  }
-
-  function modName(string _name) public returns (bool) {
-    require(msg.sender == mod);
-    name = _name;
     return true;
   }
 
