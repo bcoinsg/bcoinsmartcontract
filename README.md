@@ -3,7 +3,7 @@
 **ERC20**
 Total supply: 300,000 BCT
 Decimal factor: 18
-Name: BCoin Coin
+Name: BCoin Token
 Symbol: BCT
 
 **Deployment scripts**
