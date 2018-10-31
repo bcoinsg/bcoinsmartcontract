@@ -1,10 +1,10 @@
 # BCoin Smart Contract
 
 **ERC20**
-Total supply: 300,000 BCN
+Total supply: 300,000 BCT
 Decimal factor: 18
 Name: BCoin Coin
-Symbol: BCN
+Symbol: BCT
 
 **Deployment scripts**
 - Mass issuance of tokens
